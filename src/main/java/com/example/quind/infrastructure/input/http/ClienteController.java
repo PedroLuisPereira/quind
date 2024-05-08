@@ -22,23 +22,21 @@ public class ClienteController {
     //private final ClienteActualizar clienteActualizar;
     //private final ClienteEliminar clienteEliminar;
     private final ClienteListar clienteListar;
-    //private final ClienteListarPorId clienteListarPorId;
-
-
+    private final ClienteListarPorId clienteListarPorId;
 
 
     public ClienteController(
             ClienteCrear clienteCrear,
             //ClienteActualizar clienteActualizar,
             //ClienteEliminar clienteEliminar,
-            ClienteListar clienteListar
-            //ClienteListarPorId clienteListarPorId
+            ClienteListar clienteListar,
+            ClienteListarPorId clienteListarPorId
     ) {
         this.clienteCrear = clienteCrear;
         //this.clienteActualizar = clienteActualizar;
         //this.clienteEliminar = clienteEliminar;
         this.clienteListar = clienteListar;
-        //this.clienteListarPorId = clienteListarPorId;
+        this.clienteListarPorId = clienteListarPorId;
     }
 
     @GetMapping("")
@@ -46,22 +44,19 @@ public class ClienteController {
         return clienteListar.ejecutar();
     }
 
-//    @GetMapping("/{id}")
-//    public ClienteRespuestaDto listByid(@PathVariable(value = "id") Long id) {
-//        return clienteListarPorId.ejecutar(id);
-//    }
+    @GetMapping("/{id}")
+    public ClienteRespuestaDto listByid(@PathVariable(value = "id") Long id) {
+        return clienteListarPorId.ejecutar(id);
+    }
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ClienteRespuestaDto createPersona(@RequestBody ClienteDto clienteDto) {
-
-        System.out.println(clienteDto);
-
+    public ClienteRespuestaDto create(@RequestBody ClienteDto clienteDto) {
         return clienteCrear.ejecutar(clienteDto);
     }
 
 //    @PutMapping("/{id}")
-//    public ClienteRespuestaDto updatePersona(@PathVariable(value = "id") Long id, @RequestBody ClienteDto clienteDto) {
+//    public ClienteRespuestaDto update(@PathVariable(value = "id") Long id, @RequestBody ClienteDto clienteDto) {
 //        return clienteActualizar.ejecutar(id,clienteDto);
 //    }
 

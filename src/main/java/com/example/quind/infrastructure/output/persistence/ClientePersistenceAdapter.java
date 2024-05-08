@@ -27,7 +27,8 @@ public class ClientePersistenceAdapter implements ClientePortRepository {
 
     @Override
     public Optional<Cliente> listarByid(long id) {
-        return Optional.empty();
+        Optional<ClienteEntity> clienteEntity = clienteRepository.findById(id);
+        return clienteEntity.map(ClienteMapper::toCliente);
     }
 
     @Override

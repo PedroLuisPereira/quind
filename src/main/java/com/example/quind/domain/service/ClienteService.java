@@ -24,8 +24,7 @@ public class ClienteService {
 
     public Cliente listarByid(long id) {
         return clienteRepository.listarByid(id)
-                .orElseThrow(() -> new RegistroNotFoundException("No se encontro cliente con ese Id")
-                );
+                .orElseThrow(() -> new RegistroNotFoundException("Cliente no encontrado"));
     }
 
     public Cliente crear(ClienteSolicitud clienteSolicitud) {
