@@ -23,7 +23,7 @@ public class CuentaEntity {
     @Column(name = "tipo_de_cuenta")
     private String tipoDeCuenta;
 
-    @Column(name = "numeroDeCuenta")
+    @Column(name = "numero_de_cuenta", unique = true)
     private String numeroDeCuenta;
 
     private String estado;

@@ -18,9 +18,9 @@ public class ClientePersistenceAdapter implements ClientePortRepository {
 
     @Override
     public List<Cliente> listar() {
-        List<ClienteEntity> personas = clienteRepository.findAll();
+        List<ClienteEntity> clienteEntities = clienteRepository.findAll();
 
-        return personas.stream()
+        return clienteEntities.stream()
                 .map(ClienteMapper::toCliente)
                 .collect(Collectors.toList());
     }
