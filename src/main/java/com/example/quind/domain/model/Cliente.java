@@ -27,7 +27,7 @@ public class Cliente implements Serializable {
                     Date fechaDeNacimiento,
                     Date fechaDeCreacion,
                     Date fechaDeModificacion) {
-
+        this.id = id;
         this.tipoDeIdentificacion = tipoDeIdentificacion;
         this.numeroDeIdentificacion = numeroDeIdentificacion;
         this.nombres = nombres;
@@ -104,20 +104,5 @@ public class Cliente implements Serializable {
 
     public Date getFechaDeModificacion() {
         return fechaDeModificacion;
-    }
-
-    @Override
-    public String toString() {
-        return "Cliente{" +
-                "id=" + id +
-                ", tipoDeIdentificacion='" + tipoDeIdentificacion + '\'' +
-                ", numeroDeIdentificacion='" + numeroDeIdentificacion + '\'' +
-                ", nombres='" + nombres + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", correoElectronico='" + correoElectronico + '\'' +
-                ", fechaDeNacimiento=" + fechaDeNacimiento +
-                ", fechaDeCreacion=" + fechaDeCreacion +
-                ", fechaDeModificacion=" + fechaDeModificacion +
-                '}';
     }
 }

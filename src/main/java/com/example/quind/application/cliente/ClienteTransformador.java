@@ -8,6 +8,9 @@ import com.example.quind.domain.model.Cliente;
 
 public class ClienteTransformador {
 
+    private ClienteTransformador() {
+    }
+
     public static ClienteSolicitud transformar(ClienteDto clienteDto) {
         return new ClienteSolicitud(
                 clienteDto.getId(),

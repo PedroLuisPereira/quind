@@ -14,33 +14,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/clientes/")
+@RequestMapping("api/clientes")
 @CrossOrigin(origins = "*")
 public class ClienteController {
 
     private final ClienteCrear clienteCrear;
     //private final ClienteActualizar clienteActualizar;
     //private final ClienteEliminar clienteEliminar;
-    //private final ClienteListar clienteListar;
+    private final ClienteListar clienteListar;
     //private final ClienteListarPorId clienteListarPorId;
 
-    public ClienteController(ClienteCrear clienteCrear) {
+
+
+
+    public ClienteController(
+            ClienteCrear clienteCrear,
+            //ClienteActualizar clienteActualizar,
+            //ClienteEliminar clienteEliminar,
+            ClienteListar clienteListar
+            //ClienteListarPorId clienteListarPorId
+    ) {
         this.clienteCrear = clienteCrear;
+        //this.clienteActualizar = clienteActualizar;
+        //this.clienteEliminar = clienteEliminar;
+        this.clienteListar = clienteListar;
+        //this.clienteListarPorId = clienteListarPorId;
     }
 
-
-//    public ClienteController(ClienteCrear clienteCrear, ClienteActualizar clienteActualizar, ClienteEliminar clienteEliminar, ClienteListar clienteListar, ClienteListarPorId clienteListarPorId) {
-//        this.clienteCrear = clienteCrear;
-//        this.clienteActualizar = clienteActualizar;
-//        this.clienteEliminar = clienteEliminar;
-//        this.clienteListar = clienteListar;
-//        this.clienteListarPorId = clienteListarPorId;
-//    }
-
-//    @GetMapping("")
-//    public List<ClienteRespuestaDto> list() {
-//        return clienteListar.ejecutar();
-//    }
+    @GetMapping("")
+    public List<ClienteRespuestaDto> list() {
+        return clienteListar.ejecutar();
+    }
 
 //    @GetMapping("/{id}")
 //    public ClienteRespuestaDto listByid(@PathVariable(value = "id") Long id) {

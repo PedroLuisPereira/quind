@@ -13,7 +13,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Table(name = "clientes")
-@ToString
 public class ClienteEntity {
 
     @Id
@@ -45,5 +44,18 @@ public class ClienteEntity {
     @Temporal(TemporalType.DATE)
     private Date fechaDeModificacion;
 
-
+    @Override
+    public String toString() {
+        return "ClienteEntity{" +
+                "id=" + id +
+                ", tipoDeIdentificacion='" + tipoDeIdentificacion + '\'' +
+                ", numeroDeIdentificacion='" + numeroDeIdentificacion + '\'' +
+                ", nombres='" + nombres + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", correoElectronico='" + correoElectronico + '\'' +
+                ", fechaDeNacimiento=" + fechaDeNacimiento +
+                ", fechaDeCreacion=" + fechaDeCreacion +
+                ", fechaDeModificacion=" + fechaDeModificacion +
+                '}';
+    }
 }
