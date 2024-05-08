@@ -41,10 +41,7 @@ public class ClienteService {
                 new Date()
         );
 
-        System.out.println(clienteCrear);
-
-        return null;
-        //return clienteRepository.crear(clienteCrear);
+        return clienteRepository.crear(clienteCrear);
     }
 
     public Cliente actualizar(Cliente cliente, long id) {
