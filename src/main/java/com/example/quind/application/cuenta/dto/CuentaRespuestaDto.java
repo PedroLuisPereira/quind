@@ -16,7 +16,7 @@ public class CuentaRespuestaDto {
     private String numeroDeCuenta;
     private String estado;
     private double saldo;
-    private double exentaGMF;
+    private String exentaGMF;
     private Date fechaDeCreacion;
     private Date fechaDeModificacion;
 

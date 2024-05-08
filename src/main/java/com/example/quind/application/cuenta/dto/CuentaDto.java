@@ -15,7 +15,8 @@ public class CuentaDto {
 
     private String tipoDeCuenta;
     private double saldo;
-    private double exentaGMF;
+    private String exentaGMF;
     private long clienteId;
 
 }
+

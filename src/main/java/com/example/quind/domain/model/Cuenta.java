@@ -1,6 +1,9 @@
 package com.example.quind.domain.model;
 
 
+import com.example.quind.domain.exception.CampoConException;
+import com.example.quind.domain.validation.Validacion;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,12 +14,12 @@ public class Cuenta implements Serializable {
     private String numeroDeCuenta;
     private String estado;
     private double saldo;
-    private double exentaGMF;
+    private String exentaGMF;
     private Date fechaDeCreacion;
     private Date fechaDeModificacion;
     private Cliente cliente;
 
-    private Cuenta(Long id, String tipoDeCuenta, String numeroDeCuenta, String estado, double saldo, double exentaGMF, Date fechaDeCreacion, Date fechaDeModificacion, Cliente cliente) {
+    private Cuenta(Long id, String tipoDeCuenta, String numeroDeCuenta, String estado, double saldo, String exentaGMF, Date fechaDeCreacion, Date fechaDeModificacion, Cliente cliente) {
         this.id = id;
         this.tipoDeCuenta = tipoDeCuenta;
         this.numeroDeCuenta = numeroDeCuenta;
@@ -28,9 +31,16 @@ public class Cuenta implements Serializable {
         this.cliente = cliente;
     }
 
-    public static Cuenta getInstance(Long id, String tipoDeCuenta, String numeroDeCuenta, String estado, double saldo, double exentaGMF, Date fechaDeCreacion, Date fechaDeModificacion, Cliente cliente) {
-
-        //todo validaciones
+    public static Cuenta getInstance(
+            Long id,
+            String tipoDeCuenta,
+            String numeroDeCuenta,
+            String estado,
+            double saldo,
+            String exentaGMF,
+            Date fechaDeCreacion,
+            Date fechaDeModificacion,
+            Cliente cliente) {
 
         return new Cuenta(
                 id,
@@ -65,7 +75,7 @@ public class Cuenta implements Serializable {
         return saldo;
     }
 
-    public double getExentaGMF() {
+    public String getExentaGMF() {
         return exentaGMF;
     }
 

@@ -8,6 +8,7 @@ import com.example.quind.application.cliente.consulta.ClienteListar;
 import com.example.quind.application.cliente.consulta.ClienteListarPorId;
 import com.example.quind.application.cliente.dto.ClienteDto;
 import com.example.quind.application.cliente.dto.ClienteRespuestaDto;
+import com.example.quind.application.cuenta.comando.CuentaCrear;
 import com.example.quind.application.cuenta.consulta.CuentaListar;
 import com.example.quind.application.cuenta.dto.CuentaDto;
 import com.example.quind.application.cuenta.dto.CuentaRespuestaDto;
@@ -21,7 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CuentaController {
 
-    //private final ClienteCrear clienteCrear;
+    private final CuentaCrear cuentaCrear;
     //private final ClienteActualizar clienteActualizar;
     //private final ClienteEliminar clienteEliminar;
     private final CuentaListar cuentaListar;
@@ -29,13 +30,13 @@ public class CuentaController {
 
 
     public CuentaController(
-            //ClienteCrear clienteCrear,
+            CuentaCrear cuentaCrear,
             //ClienteActualizar clienteActualizar,
             //ClienteEliminar clienteEliminar,
             CuentaListar cuentaListar
             //ClienteListarPorId clienteListarPorId
     ) {
-        //this.clienteCrear = clienteCrear;
+        this.cuentaCrear = cuentaCrear;
         //this.clienteActualizar = clienteActualizar;
         //this.clienteEliminar = clienteEliminar;
         this.cuentaListar = cuentaListar;
@@ -52,11 +53,11 @@ public class CuentaController {
 //        return clienteListarPorId.ejecutar(id);
 //    }
 
-//    @PostMapping("")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ClienteRespuestaDto create(@RequestBody CuentaDto cuentaDto) {
-//        return clienteCrear.ejecutar(clienteDto);
-//    }
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CuentaRespuestaDto create(@RequestBody CuentaDto cuentaDto) {
+        return cuentaCrear.ejecutar(cuentaDto);
+    }
 
 
 

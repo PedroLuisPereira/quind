@@ -1,7 +1,9 @@
 package com.example.quind.application.cuenta;
 
 
+import com.example.quind.application.cuenta.dto.CuentaDto;
 import com.example.quind.application.cuenta.dto.CuentaRespuestaDto;
+import com.example.quind.domain.dto.CuentaSolicitud;
 import com.example.quind.domain.model.Cuenta;
 
 
@@ -10,17 +12,14 @@ public class CuentaTransformador {
     private CuentaTransformador() {
     }
 
-//    public static CuentaSolicitud transformar(CuentaDto clienteDto) {
-//        return new ClienteSolicitud(
-//                clienteDto.getId(),
-//                clienteDto.getTipoDeIdentificacion(),
-//                clienteDto.getNumeroDeIdentificacion(),
-//                clienteDto.getNombres(),
-//                clienteDto.getApellidos(),
-//                clienteDto.getCorreoElectronico(),
-//                clienteDto.getFechaDeNacimiento()
-//        );
-//    }
+    public static CuentaSolicitud transformar(CuentaDto cuentaDto) {
+        return new CuentaSolicitud(
+                cuentaDto.getTipoDeCuenta(),
+                cuentaDto.getSaldo(),
+                cuentaDto.getExentaGMF(),
+                cuentaDto.getClienteId()
+        );
+    }
 
 //    public static CuentaDto transformar (ClienteSolicitud clienteSolicitud) {
 //        return new CuentaDto(

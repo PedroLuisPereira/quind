@@ -31,7 +31,7 @@ public class CuentaEntity {
     private double saldo;
 
     @Column(name = "exenta_GMF")
-    private double exentaGMF;
+    private String exentaGMF;
 
     @Column(name = "fecha_de_creacion")
     @Temporal(TemporalType.DATE)
