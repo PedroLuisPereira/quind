@@ -44,18 +44,4 @@ public class ClienteEntity {
     @Temporal(TemporalType.DATE)
     private Date fechaDeModificacion;
 
-    @Override
-    public String toString() {
-        return "ClienteEntity{" +
-                "id=" + id +
-                ", tipoDeIdentificacion='" + tipoDeIdentificacion + '\'' +
-                ", numeroDeIdentificacion='" + numeroDeIdentificacion + '\'' +
-                ", nombres='" + nombres + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", correoElectronico='" + correoElectronico + '\'' +
-                ", fechaDeNacimiento=" + fechaDeNacimiento +
-                ", fechaDeCreacion=" + fechaDeCreacion +
-                ", fechaDeModificacion=" + fechaDeModificacion +
-                '}';
-    }
 }

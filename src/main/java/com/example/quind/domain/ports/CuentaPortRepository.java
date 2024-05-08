@@ -11,6 +11,8 @@ public interface CuentaPortRepository {
 
     Optional<Cuenta> listarByid(long id);
 
+    List<Cuenta> listarByNumeroCuenta(String numeroCuenta);
+
     Cuenta guardar(Cuenta cuenta);
 
     void eliminar(long id);
