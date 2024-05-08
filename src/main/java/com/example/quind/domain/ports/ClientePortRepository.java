@@ -11,9 +11,7 @@ public interface ClientePortRepository {
 
     Optional<Cliente> listarByid(long id);
 
-    Cliente crear(Cliente cliente);
-
-    Cliente actualizar(Cliente cliente, long id);
+    Cliente guardar(Cliente cliente);
 
     void eliminar(long id);
 

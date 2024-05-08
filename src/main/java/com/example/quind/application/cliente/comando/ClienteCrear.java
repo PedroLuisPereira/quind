@@ -20,11 +20,8 @@ public class ClienteCrear {
 
     @Transactional
     public ClienteRespuestaDto ejecutar(ClienteDto clienteDto) {
-
         ClienteSolicitud clienteSolicitud = ClienteTransformador.transformar(clienteDto);
-
         Cliente cliente = clienteService.crear(clienteSolicitud);
-
         return ClienteTransformador.transformar(cliente);
     }
 }

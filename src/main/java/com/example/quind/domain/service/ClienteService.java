@@ -41,14 +41,32 @@ public class ClienteService {
                 new Date()
         );
 
-        return clienteRepository.crear(clienteCrear);
+        return clienteRepository.guardar(clienteCrear);
     }
 
-    public Cliente actualizar(Cliente cliente, long id) {
-        return null;
+    public Cliente actualizar(long id, ClienteSolicitud clienteSolicitud) {
+
+        Cliente clienteActual = clienteRepository.listarByid(id)
+                .orElseThrow(() -> new RegistroNotFoundException("Cliente no encontrado"));
+
+        Cliente cliente = Cliente.getInstance(
+                id,
+                clienteSolicitud.getTipoDeIdentificacion(),
+                clienteSolicitud.getNumeroDeIdentificacion(),
+                clienteSolicitud.getNombres(),
+                clienteSolicitud.getApellidos(),
+                clienteSolicitud.getCorreoElectronico(),
+                clienteSolicitud.getFechaDeNacimiento(),
+                clienteActual.getFechaDeCreacion(),
+                new Date()
+        );
+
+        return clienteRepository.guardar(cliente);
     }
 
     public void eliminar(long id) {
+        //todo validaciones
 
+        clienteRepository.eliminar(id);
     }
 }

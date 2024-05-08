@@ -3,7 +3,6 @@ package com.example.quind.application.cliente.consulta;
 
 import com.example.quind.application.cliente.ClienteTransformador;
 import com.example.quind.application.cliente.dto.ClienteRespuestaDto;
-import com.example.quind.domain.model.Cliente;
 import com.example.quind.domain.service.ClienteService;
 
 import org.springframework.transaction.annotation.Transactional;

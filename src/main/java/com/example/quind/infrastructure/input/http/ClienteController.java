@@ -19,22 +19,22 @@ import java.util.List;
 public class ClienteController {
 
     private final ClienteCrear clienteCrear;
-    //private final ClienteActualizar clienteActualizar;
-    //private final ClienteEliminar clienteEliminar;
+    private final ClienteActualizar clienteActualizar;
+    private final ClienteEliminar clienteEliminar;
     private final ClienteListar clienteListar;
     private final ClienteListarPorId clienteListarPorId;
 
 
     public ClienteController(
             ClienteCrear clienteCrear,
-            //ClienteActualizar clienteActualizar,
-            //ClienteEliminar clienteEliminar,
+            ClienteActualizar clienteActualizar,
+            ClienteEliminar clienteEliminar,
             ClienteListar clienteListar,
             ClienteListarPorId clienteListarPorId
     ) {
         this.clienteCrear = clienteCrear;
-        //this.clienteActualizar = clienteActualizar;
-        //this.clienteEliminar = clienteEliminar;
+        this.clienteActualizar = clienteActualizar;
+        this.clienteEliminar = clienteEliminar;
         this.clienteListar = clienteListar;
         this.clienteListarPorId = clienteListarPorId;
     }
@@ -55,15 +55,15 @@ public class ClienteController {
         return clienteCrear.ejecutar(clienteDto);
     }
 
-//    @PutMapping("/{id}")
-//    public ClienteRespuestaDto update(@PathVariable(value = "id") Long id, @RequestBody ClienteDto clienteDto) {
-//        return clienteActualizar.ejecutar(id,clienteDto);
-//    }
+    @PutMapping("/{id}")
+    public ClienteRespuestaDto update(@PathVariable(value = "id") Long id, @RequestBody ClienteDto clienteDto) {
+        return clienteActualizar.ejecutar(id, clienteDto);
+    }
 
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void delete(@PathVariable(value = "id") Long id) {
-//        clienteEliminar.ejecutar(id);
-//    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable(value = "id") Long id) {
+        clienteEliminar.ejecutar(id);
+    }
 
 }
