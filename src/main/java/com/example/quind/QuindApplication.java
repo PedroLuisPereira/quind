@@ -1,4 +1,4 @@
-package com.example.Quind;
+package com.example.quind;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
