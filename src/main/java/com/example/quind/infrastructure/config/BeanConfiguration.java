@@ -20,8 +20,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ClienteService clienteService(ClientePortRepository clientePortRepository) {
-        return new ClienteService(clientePortRepository);
+    public ClienteService clienteService(ClientePortRepository clientePortRepository, CuentaPortRepository cuentaPortRepository ) {
+        return new ClienteService(clientePortRepository, cuentaPortRepository );
     }
 
     @Bean

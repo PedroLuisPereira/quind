@@ -34,11 +34,11 @@ public class CuentaEntity {
     private String exentaGMF;
 
     @Column(name = "fecha_de_creacion")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaDeCreacion;
 
     @Column(name = "fecha_de_modificacion")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaDeModificacion;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

@@ -13,7 +13,7 @@ public class ClienteMapper {
                 entity.getNombres(),
                 entity.getApellidos(),
                 entity.getCorreoElectronico(),
-                entity.getFechaDeNacimiento(),
+                entity.getFechaDeNacimiento().toString(),
                 entity.getFechaDeCreacion(),
                 entity.getFechaDeModificacion()
         );

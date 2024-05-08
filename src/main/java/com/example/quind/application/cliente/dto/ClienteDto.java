@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 
 @Getter
 @AllArgsConstructor
@@ -18,18 +16,6 @@ public class ClienteDto {
     private String nombres;
     private String apellidos;
     private String correoElectronico;
-    private Date fechaDeNacimiento;
+    private String fechaDeNacimiento;
 
-    @Override
-    public String toString() {
-        return "ClienteDto{" +
-                "id=" + id +
-                ", tipoDeIdentificacion='" + tipoDeIdentificacion + '\'' +
-                ", numeroDeIdentificacion='" + numeroDeIdentificacion + '\'' +
-                ", nombres='" + nombres + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", correoElectronico='" + correoElectronico + '\'' +
-                ", fechaDeNacimiento=" + fechaDeNacimiento +
-                '}';
-    }
 }

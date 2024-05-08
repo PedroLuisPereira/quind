@@ -10,12 +10,12 @@ public class ClienteSolicitud {
     private String nombres;
     private String apellidos;
     private String correoElectronico;
-    private Date fechaDeNacimiento;
+    private String fechaDeNacimiento;
 
     public ClienteSolicitud() {
     }
 
-    public ClienteSolicitud(Long id, String tipoDeIdentificacion, String numeroDeIdentificacion, String nombres, String apellidos, String correoElectronico, Date fechaDeNacimiento) {
+    public ClienteSolicitud(Long id, String tipoDeIdentificacion, String numeroDeIdentificacion, String nombres, String apellidos, String correoElectronico, String fechaDeNacimiento) {
         this.id = id;
         this.tipoDeIdentificacion = tipoDeIdentificacion;
         this.numeroDeIdentificacion = numeroDeIdentificacion;
@@ -73,11 +73,11 @@ public class ClienteSolicitud {
         this.correoElectronico = correoElectronico;
     }
 
-    public Date getFechaDeNacimiento() {
+    public String getFechaDeNacimiento() {
         return fechaDeNacimiento;
     }
 
-    public void setFechaDeNacimiento(Date fechaDeNacimiento) {
+    public void setFechaDeNacimiento(String fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
 }

@@ -1,9 +1,12 @@
 package com.example.quind.domain.service;
 
 import com.example.quind.domain.dto.ClienteSolicitud;
+import com.example.quind.domain.exception.CampoConException;
 import com.example.quind.domain.exception.RegistroNotFoundException;
 import com.example.quind.domain.model.Cliente;
+import com.example.quind.domain.model.Cuenta;
 import com.example.quind.domain.ports.ClientePortRepository;
+import com.example.quind.domain.ports.CuentaPortRepository;
 
 
 import java.util.Date;
@@ -13,9 +16,11 @@ import java.util.List;
 public class ClienteService {
 
     private final ClientePortRepository clienteRepository;
+    private final CuentaPortRepository cuentaPortRepository;
 
-    public ClienteService(ClientePortRepository clienteRepository) {
+    public ClienteService(ClientePortRepository clienteRepository, CuentaPortRepository cuentaPortRepository) {
         this.clienteRepository = clienteRepository;
+        this.cuentaPortRepository = cuentaPortRepository;
     }
 
     public List<Cliente> listar() {
@@ -65,7 +70,11 @@ public class ClienteService {
     }
 
     public void eliminar(long id) {
-        //todo validaciones
+
+        List<Cuenta> lineas = cuentaPortRepository.listarByClienteId(id);
+        if (!lineas.isEmpty()) {
+            throw new CampoConException("No se puede eliminar cliente debido a que tiene productos asociados");
+        }
 
         clienteRepository.eliminar(id);
     }

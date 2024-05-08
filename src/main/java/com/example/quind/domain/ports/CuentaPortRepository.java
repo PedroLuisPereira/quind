@@ -13,6 +13,8 @@ public interface CuentaPortRepository {
 
     List<Cuenta> listarByNumeroCuenta(String numeroCuenta);
 
+    List<Cuenta> listarByClienteId(long clienteID);
+
     Cuenta guardar(Cuenta cuenta);
 
     void eliminar(long id);
