@@ -1,6 +1,8 @@
 package com.example.quind.domain.model;
 
 
+import com.example.quind.domain.validation.Validacion;
+
 import java.io.Serializable;
 import java.util.Date;
 
