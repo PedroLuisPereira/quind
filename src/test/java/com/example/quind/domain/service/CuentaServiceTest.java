@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +44,6 @@ class CuentaServiceTest {
 
     private static final String ACTIVA = "Activa";
     private static final String CUENTA_AHORRO = "CUENTA_AHORRO";
-    private static final String CUENTA_CORRIENTE = "CUENTA_CORRIENTE";
     private static final String CUENTA_NO_ENCONTRADA = "Cuenta no encontrada";
 
     private Cliente cliente;
