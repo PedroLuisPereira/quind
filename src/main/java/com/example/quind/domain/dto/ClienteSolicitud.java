@@ -3,13 +3,13 @@ package com.example.quind.domain.dto;
 
 public class ClienteSolicitud {
 
-    private final Long id;
-    private final String tipoDeIdentificacion;
-    private final String numeroDeIdentificacion;
-    private final String nombres;
-    private final String apellidos;
-    private final String correoElectronico;
-    private final String fechaDeNacimiento;
+    private Long id;
+    private String tipoDeIdentificacion;
+    private String numeroDeIdentificacion;
+    private String nombres;
+    private String apellidos;
+    private String correoElectronico;
+    private String fechaDeNacimiento;
 
     public ClienteSolicitud(Long id, String tipoDeIdentificacion, String numeroDeIdentificacion, String nombres, String apellidos, String correoElectronico, String fechaDeNacimiento) {
         this.id = id;
@@ -20,6 +20,7 @@ public class ClienteSolicitud {
         this.correoElectronico = correoElectronico;
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
+
 
     public Long getId() {
         return id;
@@ -48,6 +49,34 @@ public class ClienteSolicitud {
 
     public String getFechaDeNacimiento() {
         return fechaDeNacimiento;
+    }
+
+    public void setTipoDeIdentificacion(String tipoDeIdentificacion) {
+        this.tipoDeIdentificacion = tipoDeIdentificacion;
+    }
+
+    public void setNumeroDeIdentificacion(String numeroDeIdentificacion) {
+        this.numeroDeIdentificacion = numeroDeIdentificacion;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public void setFechaDeNacimiento(String fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }
