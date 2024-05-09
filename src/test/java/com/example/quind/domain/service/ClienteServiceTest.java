@@ -331,7 +331,6 @@ class ClienteServiceTest {
         clienteSolicitud.setNombres("o");
 
         // when
-        Mockito.when(clienteRepository.listarByid(1L)).thenReturn(Optional.of(cliente));
         CampoConException thrown = Assertions.assertThrows(CampoConException.class,
                 () -> clienteService.actualizar(1L, clienteSolicitud));
 
@@ -347,7 +346,6 @@ class ClienteServiceTest {
         clienteSolicitud.setApellidos("o");
 
         // when
-        Mockito.when(clienteRepository.listarByid(1L)).thenReturn(Optional.of(cliente));
         CampoConException thrown = Assertions.assertThrows(CampoConException.class,
                 () -> clienteService.actualizar(1L, clienteSolicitud));
 

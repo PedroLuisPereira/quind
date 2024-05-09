@@ -1,8 +1,5 @@
 package com.example.quind.domain.model;
 
-
-
-import com.example.quind.domain.validation.Validacion;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,14 +16,14 @@ public class Cliente implements Serializable {
     private Date fechaDeModificacion;
 
     private Cliente(long id,
-                    String tipoDeIdentificacion,
-                    String numeroDeIdentificacion,
-                    String nombres,
-                    String apellidos,
-                    String correoElectronico,
-                    Date fechaDeNacimiento,
-                    Date fechaDeCreacion,
-                    Date fechaDeModificacion) {
+            String tipoDeIdentificacion,
+            String numeroDeIdentificacion,
+            String nombres,
+            String apellidos,
+            String correoElectronico,
+            Date fechaDeNacimiento,
+            Date fechaDeCreacion,
+            Date fechaDeModificacion) {
         this.id = id;
         this.tipoDeIdentificacion = tipoDeIdentificacion;
         this.numeroDeIdentificacion = numeroDeIdentificacion;
@@ -39,24 +36,14 @@ public class Cliente implements Serializable {
     }
 
     public static Cliente getInstance(long id,
-                                      String tipoDeIdentificacion,
-                                      String numeroDeIdentificacion,
-                                      String nombres,
-                                      String apellidos,
-                                      String correoElectronico,
-                                      Date fechaDeNacimiento,
-                                      Date fechaDeCreacion,
-                                      Date fechaDeModificacion) {
-
-        Validacion.validarObligatorio(tipoDeIdentificacion, "El campo tipoDeIdentificacion es requerido");
-        Validacion.validarObligatorio(numeroDeIdentificacion, "El campo numeroDeIdentificacion es requerido");
-        Validacion.validarObligatorio(nombres, "El campo nombres es requerido");
-        Validacion.validarObligatorio(apellidos, "El campo apellidos es requerido");
-        Validacion.validarObligatorio(correoElectronico, "El campo correoElectronico es requerido");
-        Validacion.validarObligatorio(fechaDeNacimiento, "El campo fechaDeNacimiento es requerido");
-        Validacion.validarMayorDeDosCaracteres(nombres, "El campo nombres debe ser mayor de dos caracteres");
-        Validacion.validarMayorDeDosCaracteres(apellidos, "El campo apellidos debe ser mayor de dos caracteres");
-
+            String tipoDeIdentificacion,
+            String numeroDeIdentificacion,
+            String nombres,
+            String apellidos,
+            String correoElectronico,
+            Date fechaDeNacimiento,
+            Date fechaDeCreacion,
+            Date fechaDeModificacion) {
 
         return new Cliente(
                 id,

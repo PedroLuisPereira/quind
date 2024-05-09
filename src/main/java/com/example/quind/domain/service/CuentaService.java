@@ -85,13 +85,8 @@ public class CuentaService {
 
     public Cuenta modificarEstado(CuentaEstadoDto cuentaEstadoDto) {
 
-        if (cuentaEstadoDto.getNumeroDeCuenta() == null) {
-            throw new CampoConException("El campo numeroDeCuenta es requerido");
-        }
-
-        if (cuentaEstadoDto.getEstado() == null) {
-            throw new CampoConException("El campo estado es requerido");
-        }
+        Validacion.validarObligatorio(cuentaEstadoDto.getNumeroDeCuenta(), "El campo numeroDeCuenta es requerido");
+        Validacion.validarObligatorio(cuentaEstadoDto.getEstado(), "El campo estado es requerido");
 
         if (!cuentaEstadoDto.getEstado().equals(ACTIVA)
                 && !cuentaEstadoDto.getEstado().equals("Inactiva")
@@ -181,8 +176,9 @@ public class CuentaService {
                 cuentaDestino.getCliente()
         );
 
-        cuentaRepository.guardar(cuentaOrigen);
-        return cuentaRepository.guardar(cuentaDestino);
+        cuentaRepository.guardar(cuentaDestino);
+        return cuentaRepository.guardar(cuentaOrigen);
+        
 
     }
 
@@ -210,7 +206,6 @@ public class CuentaService {
         return cuentaRepository.guardar(cuentaOrigen);
 
     }
-
 
     private String getNumeroCuenta(int i) {
         String numeros = "0123456789";
