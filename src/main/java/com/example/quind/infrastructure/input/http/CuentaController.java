@@ -1,13 +1,11 @@
 package com.example.quind.infrastructure.input.http;
 
 
-import com.example.quind.application.cuenta.comando.CuentaConsignar;
-import com.example.quind.application.cuenta.comando.CuentaCrear;
-import com.example.quind.application.cuenta.comando.CuentaRetirar;
-import com.example.quind.application.cuenta.comando.CuentaTransferir;
+import com.example.quind.application.cuenta.comando.*;
 import com.example.quind.application.cuenta.consulta.CuentaListar;
 import com.example.quind.application.cuenta.consulta.CuentaListarPorNumero;
 import com.example.quind.application.cuenta.dto.CuentaDto;
+import com.example.quind.application.cuenta.dto.CuentaModificarEstadoDto;
 import com.example.quind.application.cuenta.dto.CuentaRespuestaDto;
 import com.example.quind.application.cuenta.dto.OperacionDto;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,7 @@ public class CuentaController {
     private final CuentaRetirar cuentaRetirar;
     private final CuentaListar cuentaListar;
     private final CuentaListarPorNumero cuentaListarPorNumero;
+    private final CuentaEstado cuentaEstado;
 
 
     public CuentaController(
@@ -34,7 +33,8 @@ public class CuentaController {
             CuentaTransferir cuentaTransferir,
             CuentaRetirar cuentaRetirar,
             CuentaListar cuentaListar,
-            CuentaListarPorNumero cuentaListarPorNumero
+            CuentaListarPorNumero cuentaListarPorNumero,
+            CuentaEstado cuentaEstado
 
     ) {
         this.cuentaCrear = cuentaCrear;
@@ -43,6 +43,7 @@ public class CuentaController {
         this.cuentaRetirar = cuentaRetirar;
         this.cuentaListar = cuentaListar;
         this.cuentaListarPorNumero = cuentaListarPorNumero;
+        this.cuentaEstado = cuentaEstado;
     }
 
     @GetMapping("")
@@ -59,6 +60,11 @@ public class CuentaController {
     @ResponseStatus(HttpStatus.CREATED)
     public CuentaRespuestaDto create(@RequestBody CuentaDto cuentaDto) {
         return cuentaCrear.ejecutar(cuentaDto);
+    }
+
+    @PostMapping("/operacion/estado")
+    public CuentaRespuestaDto modificarEstado(@RequestBody CuentaModificarEstadoDto modificarEstadoDto) {
+        return cuentaEstado.ejecutar(modificarEstadoDto);
     }
 
     @PostMapping("/operacion/consignar")

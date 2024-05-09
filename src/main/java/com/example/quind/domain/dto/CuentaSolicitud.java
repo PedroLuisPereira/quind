@@ -6,6 +6,7 @@ public class CuentaSolicitud {
     private String tipoDeCuenta;
     private double saldo;
     private String exentaGMF;
+    private String estado;
     private Long clienteId;
 
     public CuentaSolicitud(String tipoDeCuenta, double saldo, String exentaGMF, Long clienteId) {
@@ -46,5 +47,13 @@ public class CuentaSolicitud {
 
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

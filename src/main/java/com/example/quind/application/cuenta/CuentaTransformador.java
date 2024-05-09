@@ -2,8 +2,10 @@ package com.example.quind.application.cuenta;
 
 
 import com.example.quind.application.cuenta.dto.CuentaDto;
+import com.example.quind.application.cuenta.dto.CuentaModificarEstadoDto;
 import com.example.quind.application.cuenta.dto.CuentaRespuestaDto;
 import com.example.quind.application.cuenta.dto.OperacionDto;
+import com.example.quind.domain.dto.CuentaEstadoDto;
 import com.example.quind.domain.dto.CuentaSolicitud;
 import com.example.quind.domain.dto.OperacionSolicitud;
 import com.example.quind.domain.model.Cuenta;
@@ -28,6 +30,13 @@ public class CuentaTransformador {
                 operacionDto.getNumeroCuentaOrigen(),
                 operacionDto.getNumeroCuentaDestino(),
                 operacionDto.getValor()
+        );
+    }
+
+    public static CuentaEstadoDto transformar(CuentaModificarEstadoDto modificarEstadoDto) {
+        return new CuentaEstadoDto(
+                modificarEstadoDto.getNumeroDeCuenta(),
+                modificarEstadoDto.getEstado()
         );
     }
 

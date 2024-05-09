@@ -1,5 +1,6 @@
 package com.example.quind.domain.service;
 
+import com.example.quind.domain.dto.CuentaEstadoDto;
 import com.example.quind.domain.dto.CuentaSolicitud;
 import com.example.quind.domain.dto.OperacionSolicitud;
 import com.example.quind.domain.exception.CampoConException;
@@ -79,6 +80,50 @@ public class CuentaService {
         );
 
         return cuentaRepository.guardar(cuenta);
+    }
+
+
+    public Cuenta modificarEstado(CuentaEstadoDto cuentaEstadoDto) {
+
+        if(cuentaEstadoDto.getNumeroDeCuenta() == null){
+            throw new CampoConException("El campo numeroDeCuenta es requerido");
+        }
+
+        if(cuentaEstadoDto.getEstado() == null){
+            throw new CampoConException("El campo estado es requerido");
+        }
+
+        if (!cuentaEstadoDto.getEstado().equals("Activa")
+                && !cuentaEstadoDto.getEstado().equals("Inactiva")
+                && !cuentaEstadoDto.getEstado().equals("Cancelada")
+        ) {
+            throw new CampoConException("Estado no valido, debe ser Activa, Inactiva, Cancelada");
+        }
+
+        Cuenta cuenta = cuentaRepository.listarByNumeroCuenta(cuentaEstadoDto.getNumeroDeCuenta())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RegistroNotFoundException("Cuenta no encontrada"));
+
+        if (cuentaEstadoDto.getEstado().equals("Cancelada") && cuenta.getSaldo() != 0) {
+            throw new CampoConException("No se puede cancelar cuenta debe tener saldo en 0");
+        }
+
+        return cuentaRepository.guardar(
+                Cuenta.getInstance(
+                        cuenta.getId(),
+                        cuenta.getTipoDeCuenta(),
+                        cuenta.getNumeroDeCuenta(),
+                        cuentaEstadoDto.getEstado(),
+                        cuenta.getSaldo(),
+                        cuenta.getExentaGMF(),
+                        cuenta.getFechaDeCreacion(),
+                        new Date(),
+                        cuenta.getCliente()
+                )
+        );
+
+
     }
 
     public Cuenta consignacion(OperacionSolicitud operacionSolicitud) {
