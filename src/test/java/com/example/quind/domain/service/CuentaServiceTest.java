@@ -6,23 +6,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.example.quind.domain.dto.ClienteSolicitud;
 import com.example.quind.domain.dto.CuentaEstadoDto;
 import com.example.quind.domain.dto.CuentaSolicitud;
 import com.example.quind.domain.dto.OperacionSolicitud;
+import com.example.quind.domain.exception.CampoConException;
+import com.example.quind.domain.exception.RegistroNotFoundException;
 import com.example.quind.domain.model.Cliente;
 import com.example.quind.domain.model.Cuenta;
 import com.example.quind.domain.ports.ClientePortRepository;
 import com.example.quind.domain.ports.CuentaPortRepository;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -124,6 +125,63 @@ class CuentaServiceTest {
     }
 
     @Test
+    void crearTipoDeCuentaNoValido() {
+
+        // given
+        cuentaSolicitud.setTipoDeCuenta("OTRA");
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.crear(cuentaSolicitud));
+
+        // then
+        Assertions.assertEquals("El campo tipoDeCuenta debe ser CUENTA_AHORRO o CUENTA_CORRIENTE", thrown.getMessage());
+    }
+
+    @Test
+    void crearSaldoNegativoAhorro() {
+
+        // given
+        cuentaSolicitud.setSaldo(-50000);
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.crear(cuentaSolicitud));
+
+        // then
+        Assertions.assertEquals("El saldo de CUENTA_AHORRO no puede ser menor a 0", thrown.getMessage());
+    }
+
+    @Test
+    void crearTipoExentaGMF() {
+
+        // given
+        cuentaSolicitud.setExentaGMF("OTRO");
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.crear(cuentaSolicitud));
+
+        // then
+        Assertions.assertEquals("El campo exentaGMF debe ser SI o NO", thrown.getMessage());
+    }
+
+    @Test
+    void crearClienteNoExiste() {
+
+        // given
+        cuentaSolicitud.setClienteId(5L);
+        Mockito.when(clienteRepository.listarByid(anyLong())).thenReturn(Optional.empty());
+
+        // when
+        RegistroNotFoundException thrown = Assertions.assertThrows(RegistroNotFoundException.class,
+                () -> cuentaService.crear(cuentaSolicitud));
+
+        // then
+        Assertions.assertEquals("Cliente no encontrado", thrown.getMessage());
+    }
+
+    @Test
     void modificarEstado() {
         // given - precondition or setup
         Cuenta cuenta2 = Cuenta.getInstance(1L,
@@ -146,6 +204,50 @@ class CuentaServiceTest {
         Assertions.assertEquals(50000, cuentaEstado.getSaldo());
         Assertions.assertEquals("Inactiva", cuentaEstado.getEstado());
         Assertions.assertEquals("luis@gmail.com", cuentaEstado.getCliente().getCorreoElectronico());
+    }
+
+    @Test
+    void modificarEstadoErrado() {
+
+        // given
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("123456789", "OTRO");
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.modificarEstado(cuentaEstadoDto));
+
+        // then
+        Assertions.assertEquals("Estado no valido, debe ser Activa, Inactiva, Cancelada", thrown.getMessage());
+    }
+
+    @Test
+    void modificarEstadoCuentaNoExiste() {
+
+        // given
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("123456789", "Activa");
+        Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(new ArrayList<>());
+
+        // when
+        RegistroNotFoundException thrown = Assertions.assertThrows(RegistroNotFoundException.class,
+                () -> cuentaService.modificarEstado(cuentaEstadoDto));
+
+        // then
+        Assertions.assertEquals(CUENTA_NO_ENCONTRADA, thrown.getMessage());
+    }
+
+    @Test
+    void modificarEstadoSaldoCeroAhorro() {
+
+        // given
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("123456789", "Cancelada");
+        Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(List.of(cuenta));
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.modificarEstado(cuentaEstadoDto));
+
+        // then
+        Assertions.assertEquals("No se puede cancelar cuenta debe tener saldo en 0", thrown.getMessage());
     }
 
     @Test
@@ -172,6 +274,21 @@ class CuentaServiceTest {
         Assertions.assertEquals(100000, cuentaUpdate.getSaldo());
         Assertions.assertEquals("Activa", cuentaUpdate.getEstado());
         Assertions.assertEquals("luis@gmail.com", cuentaUpdate.getCliente().getCorreoElectronico());
+    }
+
+    @Test
+    void consignacionCuentaNoExiste() {
+
+        // given
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud(null, "123456789", 50000);
+        Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(new ArrayList<>());
+
+        // when
+        RegistroNotFoundException thrown = Assertions.assertThrows(RegistroNotFoundException.class,
+                () -> cuentaService.consignacion(operacionSolicitud));
+
+        // then
+        Assertions.assertEquals(CUENTA_NO_ENCONTRADA, thrown.getMessage());
     }
 
     @Test
@@ -222,6 +339,67 @@ class CuentaServiceTest {
     }
 
     @Test
+    void transferenciaCuentaOrigenNoexiste() {
+
+        // given
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", "123456789", 50000);
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5312345678")).thenReturn(new ArrayList<>());
+        
+
+        // when
+        RegistroNotFoundException thrown = Assertions.assertThrows(RegistroNotFoundException.class,
+                () -> cuentaService.transferencia(operacionSolicitud));
+
+        // then
+        Assertions.assertEquals("Cuenta origen no encontrada", thrown.getMessage());
+    }
+
+    @Test
+    void transferenciaCuentaDestinoNoexiste() {
+
+        // given
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", "5345678963", 50000);
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5312345678")).thenReturn(List.of(cuenta));
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5345678963")).thenReturn(new ArrayList<>());
+        
+
+        // when
+        RegistroNotFoundException thrown = Assertions.assertThrows(RegistroNotFoundException.class,
+                () -> cuentaService.transferencia(operacionSolicitud));
+
+        // then
+        Assertions.assertEquals("Cuenta destino no encontrada", thrown.getMessage());
+    }
+
+    @Test
+    void transferenciaSaldoInsufuciente() {
+
+        // given
+        Cuenta cuentaDestino = Cuenta.getInstance(2L,
+                CUENTA_AHORRO,
+                "5387654321",
+                "Activa",
+                100000,
+                "SI",
+                new Date(),
+                new Date(),
+                cliente);
+
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", "5387654321", 60000);
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5312345678")).thenReturn(List.of(cuenta));
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5387654321")).thenReturn(List.of(cuentaDestino));
+        
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.transferencia(operacionSolicitud));
+
+        // then
+        Assertions.assertEquals("No se puede realizar operacion saldo insuficiente", thrown.getMessage());
+    }
+
+
+    @Test
     void retiro() {
         // given - precondition or setup
         Cuenta cuentaOrigenUpdate = Cuenta.getInstance(1L,
@@ -244,5 +422,37 @@ class CuentaServiceTest {
         Assertions.assertEquals(0, cuentaUpdate.getSaldo());
         Assertions.assertEquals("Activa", cuentaUpdate.getEstado());
         Assertions.assertEquals("luis@gmail.com", cuentaUpdate.getCliente().getCorreoElectronico());
+    }
+
+    @Test
+    void retiroCuentaNoExiste() {
+
+        // given
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", null, 60000);
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5312345678")).thenReturn(new ArrayList<>());
+        
+
+        // when
+        RegistroNotFoundException thrown = Assertions.assertThrows(RegistroNotFoundException.class,
+                () -> cuentaService.retiro(operacionSolicitud));
+
+        // then
+        Assertions.assertEquals("Cuenta origen no encontrada", thrown.getMessage());
+    }
+
+    @Test
+    void retiroSaldoInsuficiente() {
+
+        // given
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", null, 60000);
+        Mockito.when(cuentaRepository.listarByNumeroCuenta("5312345678")).thenReturn(List.of(cuenta));
+        
+
+        // when
+        CampoConException thrown = Assertions.assertThrows(CampoConException.class,
+                () -> cuentaService.retiro(operacionSolicitud));
+
+        // then
+        Assertions.assertEquals("No se puede realizar operacion saldo insuficiente", thrown.getMessage());
     }
 }

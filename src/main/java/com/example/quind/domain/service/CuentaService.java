@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-
 public class CuentaService {
 
     private final ClientePortRepository clienteRepository;
@@ -46,7 +45,8 @@ public class CuentaService {
         Validacion.validarObligatorio(cuentaSolicitud.getExentaGMF(), "El campo exentaGMF es requerido");
         Validacion.validarObligatorio(cuentaSolicitud.getTipoDeCuenta(), "El campo tipoDeCuenta es requerido");
 
-        if (!cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_AHORRO) && !cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
+        if (!cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_AHORRO)
+                && !cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
             throw new CampoConException("El campo tipoDeCuenta debe ser CUENTA_AHORRO o CUENTA_CORRIENTE");
         }
 
@@ -77,8 +77,7 @@ public class CuentaService {
                 cuentaSolicitud.getExentaGMF(),
                 new Date(),
                 new Date(),
-                cliente
-        );
+                cliente);
 
         return cuentaRepository.guardar(cuenta);
     }
@@ -90,8 +89,7 @@ public class CuentaService {
 
         if (!cuentaEstadoDto.getEstado().equals(ACTIVA)
                 && !cuentaEstadoDto.getEstado().equals("Inactiva")
-                && !cuentaEstadoDto.getEstado().equals("Cancelada")
-        ) {
+                && !cuentaEstadoDto.getEstado().equals("Cancelada")) {
             throw new CampoConException("Estado no valido, debe ser Activa, Inactiva, Cancelada");
         }
 
@@ -114,14 +112,14 @@ public class CuentaService {
                         cuenta.getExentaGMF(),
                         cuenta.getFechaDeCreacion(),
                         new Date(),
-                        cuenta.getCliente()
-                )
-        );
+                        cuenta.getCliente()));
     }
 
     public Cuenta consignacion(OperacionSolicitud operacionSolicitud) {
 
-        Cuenta cuentaActual = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaDestino()).stream().findFirst()
+        Cuenta cuentaActual = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaDestino())
+                .stream()
+                .findFirst()
                 .orElseThrow(() -> new RegistroNotFoundException(CUENTA_NO_ENCONTRADA));
 
         Cuenta cuenta = Cuenta.getInstance(
@@ -133,8 +131,7 @@ public class CuentaService {
                 cuentaActual.getExentaGMF(),
                 cuentaActual.getFechaDeCreacion(),
                 new Date(),
-                cuentaActual.getCliente()
-        );
+                cuentaActual.getCliente());
 
         return cuentaRepository.guardar(cuenta);
 
@@ -142,13 +139,16 @@ public class CuentaService {
 
     public Cuenta transferencia(OperacionSolicitud operacionSolicitud) {
 
-        Cuenta cuentaOrigen = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaOrigen()).stream().findFirst()
+        Cuenta cuentaOrigen = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaOrigen()).stream()
+                .findFirst()
                 .orElseThrow(() -> new RegistroNotFoundException("Cuenta origen no encontrada"));
 
-        Cuenta cuentaDestino = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaDestino()).stream().findFirst()
+        Cuenta cuentaDestino = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaDestino())
+                .stream().findFirst()
                 .orElseThrow(() -> new RegistroNotFoundException("Cuenta destino no encontrada"));
 
-        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor() && !cuentaOrigen.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
+        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor()
+                && !cuentaOrigen.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
             throw new CampoConException("No se puede realizar operacion saldo insuficiente");
         }
 
@@ -161,8 +161,7 @@ public class CuentaService {
                 cuentaOrigen.getExentaGMF(),
                 cuentaOrigen.getFechaDeCreacion(),
                 new Date(),
-                cuentaOrigen.getCliente()
-        );
+                cuentaOrigen.getCliente());
 
         cuentaDestino = Cuenta.getInstance(
                 cuentaDestino.getId(),
@@ -173,21 +172,21 @@ public class CuentaService {
                 cuentaDestino.getExentaGMF(),
                 cuentaDestino.getFechaDeCreacion(),
                 new Date(),
-                cuentaDestino.getCliente()
-        );
+                cuentaDestino.getCliente());
 
         cuentaRepository.guardar(cuentaDestino);
         return cuentaRepository.guardar(cuentaOrigen);
-        
 
     }
 
     public Cuenta retiro(OperacionSolicitud operacionSolicitud) {
 
-        Cuenta cuentaOrigen = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaOrigen()).stream().findFirst()
+        Cuenta cuentaOrigen = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaOrigen()).stream()
+                .findFirst()
                 .orElseThrow(() -> new RegistroNotFoundException("Cuenta origen no encontrada"));
 
-        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor() && !cuentaOrigen.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
+        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor()
+                && !cuentaOrigen.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
             throw new CampoConException("No se puede realizar operacion saldo insuficiente");
         }
 
@@ -200,8 +199,7 @@ public class CuentaService {
                 cuentaOrigen.getExentaGMF(),
                 cuentaOrigen.getFechaDeCreacion(),
                 new Date(),
-                cuentaOrigen.getCliente()
-        );
+                cuentaOrigen.getCliente());
 
         return cuentaRepository.guardar(cuentaOrigen);
 
