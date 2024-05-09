@@ -24,11 +24,6 @@ public class CuentaPersistenceAdapter implements CuentaPortRepository {
     }
 
     @Override
-    public Optional<Cuenta> listarByid(long id) {
-        return cuentaRepository.findById(id).map(CuentaMapper::toCuenta);
-    }
-
-    @Override
     public List<Cuenta> listarByNumeroCuenta(String numeroCuenta) {
         return cuentaRepository.findByNumeroDeCuenta(numeroCuenta)
                 .stream()

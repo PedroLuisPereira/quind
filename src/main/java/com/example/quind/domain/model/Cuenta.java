@@ -87,19 +87,4 @@ public class Cuenta implements Serializable {
     public Cliente getCliente() {
         return cliente;
     }
-
-    @Override
-    public String toString() {
-        return "Cuenta{" +
-                "id=" + id +
-                ", tipoDeCuenta='" + tipoDeCuenta + '\'' +
-                ", numeroDeCuenta='" + numeroDeCuenta + '\'' +
-                ", estado='" + estado + '\'' +
-                ", saldo=" + saldo +
-                ", exentaGMF='" + exentaGMF + '\'' +
-                ", fechaDeCreacion=" + fechaDeCreacion +
-                ", fechaDeModificacion=" + fechaDeModificacion +
-                ", cliente=" + cliente +
-                '}';
-    }
 }

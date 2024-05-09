@@ -8,10 +8,8 @@ import java.util.Date;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "clientes")
 public class ClienteEntity {
 

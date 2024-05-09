@@ -55,10 +55,6 @@ public class ClienteSolicitud {
         this.tipoDeIdentificacion = tipoDeIdentificacion;
     }
 
-    public void setNumeroDeIdentificacion(String numeroDeIdentificacion) {
-        this.numeroDeIdentificacion = numeroDeIdentificacion;
-    }
-
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
