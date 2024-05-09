@@ -1,11 +1,9 @@
 package com.example.quind.application.cuenta.comando;
 
 import com.example.quind.application.cuenta.CuentaTransformador;
-import com.example.quind.application.cuenta.dto.CuentaDto;
 import com.example.quind.application.cuenta.dto.CuentaModificarEstadoDto;
 import com.example.quind.application.cuenta.dto.CuentaRespuestaDto;
 import com.example.quind.domain.dto.CuentaEstadoDto;
-import com.example.quind.domain.dto.CuentaSolicitud;
 import com.example.quind.domain.model.Cuenta;
 import com.example.quind.domain.service.CuentaService;
 import jakarta.transaction.Transactional;

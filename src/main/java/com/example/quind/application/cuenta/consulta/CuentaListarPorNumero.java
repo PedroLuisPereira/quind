@@ -21,6 +21,4 @@ public class CuentaListarPorNumero {
     public CuentaRespuestaDto ejecutar(String numeroCuenta) {
         return CuentaTransformador.transformar(cuentaService.listarByNumeroCuenta(numeroCuenta));
     }
-
-
 }

@@ -1,19 +1,15 @@
 package com.example.quind.domain.dto;
 
-import java.util.Date;
 
 public class ClienteSolicitud {
 
-    private Long id;
-    private String tipoDeIdentificacion;
-    private String numeroDeIdentificacion;
-    private String nombres;
-    private String apellidos;
-    private String correoElectronico;
-    private String fechaDeNacimiento;
-
-    public ClienteSolicitud() {
-    }
+    private final Long id;
+    private final String tipoDeIdentificacion;
+    private final String numeroDeIdentificacion;
+    private final String nombres;
+    private final String apellidos;
+    private final String correoElectronico;
+    private final String fechaDeNacimiento;
 
     public ClienteSolicitud(Long id, String tipoDeIdentificacion, String numeroDeIdentificacion, String nombres, String apellidos, String correoElectronico, String fechaDeNacimiento) {
         this.id = id;
@@ -29,55 +25,29 @@ public class ClienteSolicitud {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getTipoDeIdentificacion() {
         return tipoDeIdentificacion;
     }
 
-    public void setTipoDeIdentificacion(String tipoDeIdentificacion) {
-        this.tipoDeIdentificacion = tipoDeIdentificacion;
-    }
 
     public String getNumeroDeIdentificacion() {
         return numeroDeIdentificacion;
-    }
-
-    public void setNumeroDeIdentificacion(String numeroDeIdentificacion) {
-        this.numeroDeIdentificacion = numeroDeIdentificacion;
     }
 
     public String getNombres() {
         return nombres;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
-
     public String getApellidos() {
         return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
     }
 
     public String getCorreoElectronico() {
         return correoElectronico;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
-
     public String getFechaDeNacimiento() {
         return fechaDeNacimiento;
     }
 
-    public void setFechaDeNacimiento(String fechaDeNacimiento) {
-        this.fechaDeNacimiento = fechaDeNacimiento;
-    }
 }

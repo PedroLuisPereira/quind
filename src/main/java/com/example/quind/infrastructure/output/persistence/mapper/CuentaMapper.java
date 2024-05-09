@@ -6,6 +6,9 @@ import com.example.quind.infrastructure.output.persistence.entity.CuentaEntity;
 
 public class CuentaMapper {
 
+    private CuentaMapper() {
+    }
+
     public static Cuenta toCuenta(CuentaEntity entity) {
         return Cuenta.getInstance(
                 entity.getId(),

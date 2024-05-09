@@ -3,8 +3,8 @@ package com.example.quind.domain.dto;
 
 public class CuentaEstadoDto {
 
-    private String numeroDeCuenta;
-    private String estado;
+    private final String numeroDeCuenta;
+    private final String estado;
 
 
     public CuentaEstadoDto(String numeroDeCuenta, String estado) {
@@ -16,15 +16,8 @@ public class CuentaEstadoDto {
         return numeroDeCuenta;
     }
 
-    public void setNumeroDeCuenta(String numeroDeCuenta) {
-        this.numeroDeCuenta = numeroDeCuenta;
-    }
-
     public String getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
 }

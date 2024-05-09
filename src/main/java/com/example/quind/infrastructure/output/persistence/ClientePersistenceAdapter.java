@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 public class ClientePersistenceAdapter implements ClientePortRepository {
@@ -22,7 +22,7 @@ public class ClientePersistenceAdapter implements ClientePortRepository {
 
         return clienteEntities.stream()
                 .map(ClienteMapper::toCliente)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

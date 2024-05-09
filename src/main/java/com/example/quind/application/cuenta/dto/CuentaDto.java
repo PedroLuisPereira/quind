@@ -1,11 +1,8 @@
 package com.example.quind.application.cuenta.dto;
 
-import com.example.quind.domain.model.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 
 @Getter

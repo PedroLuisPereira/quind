@@ -17,7 +17,5 @@ public interface CuentaPortRepository {
 
     Cuenta guardar(Cuenta cuenta);
 
-    void eliminar(long id);
-
 }
 

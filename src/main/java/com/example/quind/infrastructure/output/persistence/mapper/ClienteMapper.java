@@ -5,6 +5,9 @@ import com.example.quind.infrastructure.output.persistence.entity.ClienteEntity;
 
 public class ClienteMapper {
 
+    private ClienteMapper() {
+    }
+
     public static Cliente toCliente(ClienteEntity entity) {
         return Cliente.getInstance(
                 entity.getId(),
@@ -13,7 +16,7 @@ public class ClienteMapper {
                 entity.getNombres(),
                 entity.getApellidos(),
                 entity.getCorreoElectronico(),
-                entity.getFechaDeNacimiento().toString(),
+                entity.getFechaDeNacimiento(),
                 entity.getFechaDeCreacion(),
                 entity.getFechaDeModificacion()
         );

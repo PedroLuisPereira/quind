@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Component
 public class CuentaListar {
@@ -25,8 +25,7 @@ public class CuentaListar {
         return cuentaService.listar()
                 .stream()
                 .map(CuentaTransformador::transformar)
-                .collect(Collectors.toList()
-                );
+                .toList();
     }
 
 
