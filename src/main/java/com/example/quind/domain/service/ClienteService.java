@@ -21,6 +21,7 @@ public class ClienteService {
 
     private final ClientePortRepository clienteRepository;
     private final CuentaPortRepository cuentaPortRepository;
+    private static final String VALIDAR_CORREO = "([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+";
 
     public ClienteService(ClientePortRepository clienteRepository, CuentaPortRepository cuentaPortRepository) {
         this.clienteRepository = clienteRepository;
@@ -69,7 +70,7 @@ public class ClienteService {
             throw new CampoConException("Cliente es menor de edad");
         }
 
-        Pattern pattern = Pattern.compile("([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+");
+        Pattern pattern = Pattern.compile(VALIDAR_CORREO);
         Matcher mather = pattern.matcher(clienteSolicitud.getCorreoElectronico());
 
         if (!mather.find() ) {
@@ -81,24 +82,48 @@ public class ClienteService {
 
     public Cliente actualizar(long id, ClienteSolicitud clienteSolicitud) {
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date nacimiento;
+        try {
+            nacimiento = dateFormat.parse(clienteSolicitud.getFechaDeNacimiento());
+        } catch (ParseException e) {
+            throw new CampoConException("El campo fechaDeNacimiento no es valido, debe ser yyyy-mm-dd");
+        }
+
         Cliente clienteActual = clienteRepository.listarByid(id)
                 .orElseThrow(() -> new RegistroNotFoundException("Cliente no encontrado"));
 
-//        Cliente cliente = Cliente.getInstance(
-//                id,
-//                clienteSolicitud.getTipoDeIdentificacion(),
-//                clienteSolicitud.getNumeroDeIdentificacion(),
-//                clienteSolicitud.getNombres(),
-//                clienteSolicitud.getApellidos(),
-//                clienteSolicitud.getCorreoElectronico(),
-//                clienteSolicitud.getFechaDeNacimiento(),
-//                clienteActual.getFechaDeCreacion(),
-//                new Date()
-//        );
-//
-//        return clienteRepository.guardar(cliente);
+        Cliente cliente = Cliente.getInstance(
+                id,
+                clienteSolicitud.getTipoDeIdentificacion(),
+                clienteSolicitud.getNumeroDeIdentificacion(),
+                clienteSolicitud.getNombres(),
+                clienteSolicitud.getApellidos(),
+                clienteSolicitud.getCorreoElectronico(),
+                nacimiento,
+                clienteActual.getFechaDeCreacion(),
+                new Date()
+        );
 
-        return null;
+        if(!clienteSolicitud.getTipoDeIdentificacion().equals("CC") && !clienteSolicitud.getTipoDeIdentificacion().equals("CE") ){
+            throw new CampoConException("El campo tipoDeIdentificacion no es valido, debe ser CC o CE");
+        }
+
+        LocalDate localDate = nacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        localDate = localDate.plusYears(18);
+
+        if (LocalDate.now().isBefore(localDate)) {
+            throw new CampoConException("Cliente es menor de edad");
+        }
+
+        Pattern pattern = Pattern.compile(VALIDAR_CORREO);
+        Matcher mather = pattern.matcher(clienteSolicitud.getCorreoElectronico());
+
+        if (!mather.find() ) {
+            throw new CampoConException("Correo electrónico no es valido");
+        }
+
+        return clienteRepository.guardar(cliente);
     }
 
     public void eliminar(long id) {
