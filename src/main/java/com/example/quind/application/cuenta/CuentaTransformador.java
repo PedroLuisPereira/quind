@@ -49,8 +49,8 @@ public class CuentaTransformador {
                 cuenta.getEstado(),
                 cuenta.getSaldo(),
                 cuenta.getExentaGMF(),
-                cuenta.getFechaDeCreacion(),
-                cuenta.getFechaDeModificacion()
+                cuenta.getFechaDeCreacion().toString(),
+                cuenta.getFechaDeModificacion().toString()
         );
     }
 }

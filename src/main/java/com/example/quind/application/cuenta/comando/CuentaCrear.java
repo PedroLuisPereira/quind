@@ -22,9 +22,7 @@ public class CuentaCrear {
     @Transactional
     public CuentaRespuestaDto ejecutar(CuentaDto cuentaDto) {
         CuentaSolicitud cuentaSolicitud = CuentaTransformador.transformar(cuentaDto);
-
         Cuenta cuenta = cuentaService.crear(cuentaSolicitud);
-
         return CuentaTransformador.transformar(cuenta);
     }
 }

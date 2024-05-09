@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 
 @Getter
 @AllArgsConstructor
@@ -17,8 +16,7 @@ public class CuentaRespuestaDto {
     private String estado;
     private double saldo;
     private String exentaGMF;
-    private Date fechaDeCreacion;
-    private Date fechaDeModificacion;
-
+    private String fechaDeCreacion;
+    private String fechaDeModificacion;
 
 }

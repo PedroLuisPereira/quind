@@ -13,12 +13,19 @@ import com.example.quind.domain.validation.Validacion;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 public class CuentaService {
 
     private final ClientePortRepository clienteRepository;
     private final CuentaPortRepository cuentaRepository;
+
+    private static final String ACTIVA = "Activa";
+    private static final String CUENTA_AHORRO = "CUENTA_AHORRO";
+    private static final String CUENTA_CORRIENTE = "CUENTA_CORRIENTE";
+    private static final String CUENTA_NO_ENCONTRADA = "Cuenta no encontrada";
+    private static final Random RANDOM = new Random();
 
     public CuentaService(ClientePortRepository clienteRepository, CuentaPortRepository cuentaRepository) {
         this.clienteRepository = clienteRepository;
@@ -29,14 +36,9 @@ public class CuentaService {
         return cuentaRepository.listar();
     }
 
-    public Cuenta listarById(long id) {
-        return cuentaRepository.listarByid(id)
-                .orElseThrow(() -> new RegistroNotFoundException("Cuenta no encontrada"));
-    }
-
     public Cuenta listarByNumeroCuenta(String numeroCuenta) {
         return cuentaRepository.listarByNumeroCuenta(numeroCuenta).stream().findFirst()
-                .orElseThrow(() -> new RegistroNotFoundException("Cuenta no encontrada"));
+                .orElseThrow(() -> new RegistroNotFoundException(CUENTA_NO_ENCONTRADA));
     }
 
     public Cuenta crear(CuentaSolicitud cuentaSolicitud) {
@@ -44,18 +46,18 @@ public class CuentaService {
         Validacion.validarObligatorio(cuentaSolicitud.getExentaGMF(), "El campo exentaGMF es requerido");
         Validacion.validarObligatorio(cuentaSolicitud.getTipoDeCuenta(), "El campo tipoDeCuenta es requerido");
 
-        if (!cuentaSolicitud.getTipoDeCuenta().equals("CUENTA_AHORRO") && !cuentaSolicitud.getTipoDeCuenta().equals("CUENTA_CORRIENTE")) {
+        if (!cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_AHORRO) && !cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
             throw new CampoConException("El campo tipoDeCuenta debe ser CUENTA_AHORRO o CUENTA_CORRIENTE");
         }
 
         String numeroCuenta = getNumeroCuenta(8);
-        if (cuentaSolicitud.getTipoDeCuenta().equals("CUENTA_AHORRO")) {
+        if (cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_AHORRO)) {
             numeroCuenta = "53" + numeroCuenta;
         } else {
             numeroCuenta = "33" + numeroCuenta;
         }
 
-        if (cuentaSolicitud.getTipoDeCuenta().equals("CUENTA_AHORRO") && cuentaSolicitud.getSaldo() < 0) {
+        if (cuentaSolicitud.getTipoDeCuenta().equals(CUENTA_AHORRO) && cuentaSolicitud.getSaldo() < 0) {
             throw new CampoConException("El saldo de CUENTA_AHORRO no puede ser menor a 0");
         }
 
@@ -70,7 +72,7 @@ public class CuentaService {
                 0L,
                 cuentaSolicitud.getTipoDeCuenta(),
                 numeroCuenta,
-                "Activa",
+                ACTIVA,
                 cuentaSolicitud.getSaldo(),
                 cuentaSolicitud.getExentaGMF(),
                 new Date(),
@@ -91,7 +93,7 @@ public class CuentaService {
             throw new CampoConException("El campo estado es requerido");
         }
 
-        if (!cuentaEstadoDto.getEstado().equals("Activa")
+        if (!cuentaEstadoDto.getEstado().equals(ACTIVA)
                 && !cuentaEstadoDto.getEstado().equals("Inactiva")
                 && !cuentaEstadoDto.getEstado().equals("Cancelada")
         ) {
@@ -101,7 +103,7 @@ public class CuentaService {
         Cuenta cuenta = cuentaRepository.listarByNumeroCuenta(cuentaEstadoDto.getNumeroDeCuenta())
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RegistroNotFoundException("Cuenta no encontrada"));
+                .orElseThrow(() -> new RegistroNotFoundException(CUENTA_NO_ENCONTRADA));
 
         if (cuentaEstadoDto.getEstado().equals("Cancelada") && cuenta.getSaldo() != 0) {
             throw new CampoConException("No se puede cancelar cuenta debe tener saldo en 0");
@@ -120,20 +122,18 @@ public class CuentaService {
                         cuenta.getCliente()
                 )
         );
-
-
     }
 
     public Cuenta consignacion(OperacionSolicitud operacionSolicitud) {
 
         Cuenta cuentaActual = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaDestino()).stream().findFirst()
-                .orElseThrow(() -> new RegistroNotFoundException("Cuenta no encontrada"));
+                .orElseThrow(() -> new RegistroNotFoundException(CUENTA_NO_ENCONTRADA));
 
         Cuenta cuenta = Cuenta.getInstance(
                 cuentaActual.getId(),
                 cuentaActual.getTipoDeCuenta(),
                 cuentaActual.getNumeroDeCuenta(),
-                "Activa",
+                cuentaActual.getEstado(),
                 cuentaActual.getSaldo() + operacionSolicitud.getValor(),
                 cuentaActual.getExentaGMF(),
                 cuentaActual.getFechaDeCreacion(),
@@ -153,7 +153,7 @@ public class CuentaService {
         Cuenta cuentaDestino = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaDestino()).stream().findFirst()
                 .orElseThrow(() -> new RegistroNotFoundException("Cuenta destino no encontrada"));
 
-        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor() && !cuentaOrigen.getTipoDeCuenta().equals("CUENTA_CORRIENTE") ) {
+        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor() && !cuentaOrigen.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
             throw new CampoConException("No se puede realizar operacion saldo insuficiente");
         }
 
@@ -191,7 +191,7 @@ public class CuentaService {
         Cuenta cuentaOrigen = cuentaRepository.listarByNumeroCuenta(operacionSolicitud.getNumeroCuentaOrigen()).stream().findFirst()
                 .orElseThrow(() -> new RegistroNotFoundException("Cuenta origen no encontrada"));
 
-        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor() && !cuentaOrigen.getTipoDeCuenta().equals("CUENTA_CORRIENTE")) {
+        if (cuentaOrigen.getSaldo() < operacionSolicitud.getValor() && !cuentaOrigen.getTipoDeCuenta().equals(CUENTA_CORRIENTE)) {
             throw new CampoConException("No se puede realizar operacion saldo insuficiente");
         }
 
@@ -215,17 +215,11 @@ public class CuentaService {
     private String getNumeroCuenta(int i) {
         String numeros = "0123456789";
         StringBuilder builder;
-
-        // create the StringBuffer
         builder = new StringBuilder(i);
 
         for (int m = 0; m < i; m++) {
-
-            // generate numeric
-            int myindex = (int) (numeros.length() * Math.random());
-
-            // add the characters
-            builder.append(numeros.charAt(myindex));
+            int index = RANDOM.nextInt(numeros.length());
+            builder.append(numeros.charAt(index));
         }
 
         return builder.toString();
