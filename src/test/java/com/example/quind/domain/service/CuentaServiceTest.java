@@ -49,13 +49,13 @@ class CuentaServiceTest {
     private Cliente cliente;
     private Cuenta cuenta;
     private CuentaSolicitud cuentaSolicitud;
-    private Date fechaNacimiento;
+    
 
     @BeforeEach
     public void setup() throws ParseException {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        fechaNacimiento = sdf.parse("2000-05-01");
+        Date fechaNacimiento = sdf.parse("2000-05-01");
 
         cliente = Cliente.getInstance(1,
                 "CC",
@@ -69,7 +69,7 @@ class CuentaServiceTest {
 
         cuenta = Cuenta.getInstance(1L,
                 CUENTA_AHORRO,
-                "12346789",
+                "5312345678",
                 ACTIVA,
                 50000,
                 "SI",
@@ -100,7 +100,7 @@ class CuentaServiceTest {
         Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(List.of(cuenta));
 
         // when - action or the behaviour that we are going test
-        Cuenta cuenta = cuentaService.listarByNumeroCuenta("12346789");
+        Cuenta cuenta = cuentaService.listarByNumeroCuenta("5312345678");
 
         // then - verify the output
         Assertions.assertNotNull(cuenta);
@@ -184,7 +184,7 @@ class CuentaServiceTest {
         // given - precondition or setup
         Cuenta cuenta2 = Cuenta.getInstance(1L,
                 CUENTA_AHORRO,
-                "12346789",
+                "5312345678",
                 "Inactiva",
                 50000,
                 "SI",
@@ -208,7 +208,7 @@ class CuentaServiceTest {
     void modificarEstadoErrado() {
 
         // given
-        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("123456789", "OTRO");
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("5312345678", "OTRO");
 
         // when
         CampoConException thrown = Assertions.assertThrows(CampoConException.class,
@@ -222,7 +222,7 @@ class CuentaServiceTest {
     void modificarEstadoCuentaNoExiste() {
 
         // given
-        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("123456789", "Activa");
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("53123456789", "Activa");
         Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(new ArrayList<>());
 
         // when
@@ -237,7 +237,7 @@ class CuentaServiceTest {
     void modificarEstadoSaldoCeroAhorro() {
 
         // given
-        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("123456789", "Cancelada");
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("5312345678", "Cancelada");
         Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(List.of(cuenta));
 
         // when
@@ -253,7 +253,7 @@ class CuentaServiceTest {
         // given - precondition or setup
         Cuenta cuenta2 = Cuenta.getInstance(1L,
                 CUENTA_AHORRO,
-                "12346789",
+                "5312345678",
                 "Activa",
                 100000,
                 "SI",
@@ -278,7 +278,7 @@ class CuentaServiceTest {
     void consignacionCuentaNoExiste() {
 
         // given
-        OperacionSolicitud operacionSolicitud = new OperacionSolicitud(null, "123456789", 50000);
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud(null, "5312345678", 50000);
         Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(new ArrayList<>());
 
         // when
@@ -340,7 +340,7 @@ class CuentaServiceTest {
     void transferenciaCuentaOrigenNoexiste() {
 
         // given
-        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", "123456789", 50000);
+        OperacionSolicitud operacionSolicitud = new OperacionSolicitud("5312345678", "5322345678", 50000);
         Mockito.when(cuentaRepository.listarByNumeroCuenta("5312345678")).thenReturn(new ArrayList<>());
         
 
@@ -395,7 +395,6 @@ class CuentaServiceTest {
         // then
         Assertions.assertEquals("No se puede realizar operacion saldo insuficiente", thrown.getMessage());
     }
-
 
     @Test
     void retiro() {
