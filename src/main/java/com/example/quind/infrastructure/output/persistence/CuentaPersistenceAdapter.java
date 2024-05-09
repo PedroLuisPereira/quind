@@ -3,14 +3,13 @@ package com.example.quind.infrastructure.output.persistence;
 
 import com.example.quind.domain.model.Cuenta;
 import com.example.quind.domain.ports.CuentaPortRepository;
-import com.example.quind.infrastructure.output.persistence.entity.CuentaEntity;
 import com.example.quind.infrastructure.output.persistence.mapper.CuentaMapper;
 import com.example.quind.infrastructure.output.persistence.repository.CuentaRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 public class CuentaPersistenceAdapter implements CuentaPortRepository {

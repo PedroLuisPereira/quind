@@ -82,5 +82,4 @@ public class CuentaController {
         return cuentaRetirar.ejecutar(operacionDto);
     }
 
-
 }

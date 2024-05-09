@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 
 @Getter
 @AllArgsConstructor
@@ -17,9 +16,9 @@ public class ClienteRespuestaDto {
     private String nombres;
     private String apellidos;
     private String correoElectronico;
-    private Date fechaDeNacimiento;
-    private Date fechaDeCreacion;
-    private Date fechaDeModificacion;
+    private String fechaDeNacimiento;
+    private String fechaDeCreacion;
+    private String fechaDeModificacion;
 
 
 }

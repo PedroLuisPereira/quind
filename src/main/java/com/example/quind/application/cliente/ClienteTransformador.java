@@ -43,9 +43,9 @@ public class ClienteTransformador {
                 cliente.getNombres(),
                 cliente.getApellidos(),
                 cliente.getCorreoElectronico(),
-                cliente.getFechaDeNacimiento(),
-                cliente.getFechaDeCreacion(),
-                cliente.getFechaDeModificacion()
+                cliente.getFechaDeNacimiento().toString(),
+                cliente.getFechaDeCreacion().toString(),
+                cliente.getFechaDeModificacion().toString()
         );
     }
 }
