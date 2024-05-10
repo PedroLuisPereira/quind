@@ -72,7 +72,7 @@ class CuentaControllerTest {
 
         cuentaEntity = new CuentaEntity(1L,
                 CUENTA_AHORRO,
-                "53123456789",
+                "5312345678",
                 ACTIVA,
                 100000,
                 "SI",
@@ -97,7 +97,7 @@ class CuentaControllerTest {
         response.andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].numeroDeCuenta", is("53123456789")))
+                .andExpect(jsonPath("$[0].numeroDeCuenta", is("5312345678")))
                 .andExpect(jsonPath("$.size()", is(cuentaEntities.size())));
     }
 
@@ -107,7 +107,7 @@ class CuentaControllerTest {
         cuentaEntity = cuentaRepository.save(cuentaEntity);
 
         // when - action or the behaviour that we are going test
-        ResultActions response = mockMvc.perform(get("/api/cuentas/numeroCuenta/53123456789"));
+        ResultActions response = mockMvc.perform(get("/api/cuentas/numeroCuenta/5312345678"));
 
         // then - verify the output
         response.andExpect(status().isOk())
@@ -138,7 +138,7 @@ class CuentaControllerTest {
     void modificarEstado() throws Exception {
         // given - precondition or setup
         cuentaEntity = cuentaRepository.save(cuentaEntity);
-        CuentaModificarEstadoDto cuentaModificarEstadoDto = new CuentaModificarEstadoDto("53123456789", "Inactiva");
+        CuentaModificarEstadoDto cuentaModificarEstadoDto = new CuentaModificarEstadoDto("5312345678", "Inactiva");
 
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(post("/api/cuentas/operacion/estado")
@@ -156,7 +156,7 @@ class CuentaControllerTest {
     void consignar() throws Exception {
         // given - precondition or setup
         cuentaEntity = cuentaRepository.save(cuentaEntity);
-        OperacionDto operacionDto = new OperacionDto(null, "53123456789", 50000);
+        OperacionDto operacionDto = new OperacionDto(null, "5312345678", 50000);
 
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(post("/api/cuentas/operacion/consignar")
@@ -167,7 +167,7 @@ class CuentaControllerTest {
         response.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.saldo", is(150000.0)))
-                .andExpect(jsonPath("$.numeroDeCuenta", is("53123456789")));
+                .andExpect(jsonPath("$.numeroDeCuenta", is("5312345678")));
 
     }
 
@@ -187,7 +187,7 @@ class CuentaControllerTest {
                 new Date(),
                 cliente));
 
-        OperacionDto operacionDto = new OperacionDto("53123456789", "53223456789", 50000);
+        OperacionDto operacionDto = new OperacionDto("5312345678", "53223456789", 50000);
 
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(post("/api/cuentas/operacion/transferir")
@@ -198,14 +198,14 @@ class CuentaControllerTest {
         response.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.saldo", is(50000.0)))
-                .andExpect(jsonPath("$.numeroDeCuenta", is("53123456789")));
+                .andExpect(jsonPath("$.numeroDeCuenta", is("5312345678")));
     }
 
     @Test
     void retirar() throws Exception {
         // given - precondition or setup
         cuentaEntity = cuentaRepository.save(cuentaEntity);
-        OperacionDto operacionDto = new OperacionDto("53123456789", null, 40000);
+        OperacionDto operacionDto = new OperacionDto("5312345678", null, 40000);
 
         // when - action or behaviour that we are going test
         ResultActions response = mockMvc.perform(post("/api/cuentas/operacion/retirar")
@@ -216,6 +216,6 @@ class CuentaControllerTest {
         response.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.saldo", is(60000.0)))
-                .andExpect(jsonPath("$.numeroDeCuenta", is("53123456789")));
+                .andExpect(jsonPath("$.numeroDeCuenta", is("5312345678")));
     }
 }

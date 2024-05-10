@@ -222,7 +222,7 @@ class CuentaServiceTest {
     void modificarEstadoCuentaNoExiste() {
 
         // given
-        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("53123456789", "Activa");
+        CuentaEstadoDto cuentaEstadoDto = new CuentaEstadoDto("5312345678", "Activa");
         Mockito.when(cuentaRepository.listarByNumeroCuenta(anyString())).thenReturn(new ArrayList<>());
 
         // when
